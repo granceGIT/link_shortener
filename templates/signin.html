@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container min-vh-100 my-4">
+    <form class="d-flex w-50 mx-auto flex-column align-items-start bg-light rounded-2 p-4" action="" method="POST">
+        <h3 class="mx-auto mb-3">Sign in</h3>
+        <span class="mb-5 mx-auto">First time here? <a href="/register">Sign up</a></span>
+        <div class="form-floating mb-3 w-100">
+            <input type="email" class="form-control" name="email" id="email" placeholder="Email" autocomplete="off" required>
+            <label for="email">Email address</label>
+        </div>
+        <div class="form-floating mb-3 w-100">
+            <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
+            <label for="password">Password</label>
+        </div>
+        {% for category,msg in get_flashed_messages(True) %}
+        <div class="flash w-100 alert text-center alert-{{category}}" role="alert">{{ msg }}</div>
+        {% endfor %}
+        <button class="btn btn-outline-primary px-3 py-2 mx-auto" type="submit">
+            Submit
+        </button>
+    </form>
+</div>
+{% endblock %}

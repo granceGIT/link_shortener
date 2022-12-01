@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container min-vh-100 my-4">
+    {% for category,msg in get_flashed_messages(True) %}
+    <div class="flash w-100 alert text-center alert-{{category}}" role="alert">{{ msg }}</div>
+    {% endfor %}
+    <h5 class="mt-4 text-center">{{username}}</h5>
+    <div>
+        <h6 class="text-center text-muted">List of your links:</h6>
+        <table cellpadding="20" class="table table-bordered my-4  text-center" align="center">
+            <tr>
+                <th>Source link</th>
+                <th>Shortened link</th>
+                <th>Access level</th>
+                <th>Visit counter</th>
+                <th>Delete</th>
+            </tr>
+            {% for link in user_links %}
+            <tr class="border">
+                <form action="" method="POST" class="lineForm">
+                    <td><p>{{link['source_link']}}</p></td>
+
+                    <td>
+
+                        <div class="input-group mb-3">
+                            <input type="hidden" name="link_id" value="{{link['id']}}">
+                            <input type="text" name="new_link" class="form-control border-0 text-center bg-white"
+                                   value="{{link['shortened_link']}}"
+                                   aria-describedby="editBtn{{link['id']}}">
+                        </div>
+
+                    </td>
+                    <td>
+                        <select class="p-2 ms-2 text-primary rounded-3" style="border:none;" name="access_level"
+                                id="access_level{{link['id']}}">
+                            {% for key,value in access_level.items() %}
+                                {% if key!=link['access_level'] %}
+                                    <option value="{{key}}">{{value}}</option>
+                                {% else %}
+                                    <option value="{{key}}" selected>{{value}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </td>
+
+                    <td><p>{{link['visit_counter']}}</p></td>
+                    <td>
+                        <button class="btn btn-primary p-1 editBtn" type="submit" id="editBtn{{link['id']}}">
+                            Save
+                        </button>
+                        <a class="btn btn-danger p-1" href="/delete/{{link['shortened_link']}}">
+                            <img src="\static\images\deleteIcon.png" alt="Delete" width="20">
+                        </a>
+                        <a class="btn btn-dark p-1" href="{{link['shortened_link']}}" target="_blank">
+                            <img src="\static\images\openInNewTab.png" alt="Open" width="20">
+                        </a>
+                    </td>
+                </form>
+            </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+</div>
+{% endblock %}
